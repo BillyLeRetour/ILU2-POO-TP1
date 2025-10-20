@@ -8,10 +8,12 @@ public class Village {
 	private Chef chef;
 	private Gaulois[] villageois;
 	private int nbVillageois = 0;
+	private Marche marche;
 
-	public Village(String nom, int nbVillageoisMaximum) {
+	public Village(String nom, int nbVillageoisMaximum,int nbEtals) {
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
+		this.marche=new Marche(nbEtals);
 	}
 
 	public String getNom() {
@@ -45,15 +47,19 @@ public class Village {
 	public String afficherVillageois() {
 		StringBuilder chaine = new StringBuilder();
 		if (nbVillageois < 1) {
-			chaine.append("Il n'y a encore aucun habitant au village du chef "
-					+ chef.getNom() + ".\n");
+			chaine.append("Il n'y a encore aucun habitant au village du chef "+ chef.getNom() + ".\n");
 		} else {
-			chaine.append("Au village du chef " + chef.getNom()
-					+ " vivent les lÃ©gendaires gaulois :\n");
+			chaine.append("Au village du chef " + chef.getNom()+ " vivent les lÃ©gendaires gaulois :\n");
 			for (int i = 0; i < nbVillageois; i++) {
 				chaine.append("- " + villageois[i].getNom() + "\n");
 			}
 		}
+		return chaine.toString();
+	}
+	
+	public String installerVendeur(Gaulois vendeur, String produit,int nbProduit) {
+		StringBuilder chaine = new StringBuilder();
+		
 		return chaine.toString();
 	}
 	
@@ -72,10 +78,10 @@ public class Village {
 			for ( int i=0; i<etals.length; i++ ) {
 				if (etals[i].isEtalOccupe()==false) {
 					return i;
-					}
 				}
-			return -1;
 			}
+			return -1;
+		}
 		
 		public Etal[] trouverEtals(String produit){
 			Etal[] etalsTrouve = new Etal[etals.length];
@@ -98,10 +104,16 @@ public class Village {
 			return null;
 		}
 		
-		public String afficherMarche() {
+		public void afficherMarche() {
 			int nbEtalVide=0;
-			
-			System.out.println("Il reste "+ nbEtalVide +" nbEtalVide étals non utilisés dans le marché.\n");
+			for(int i=0;i<etals.length;i++) {
+				if(etals[i].isEtalOccupe()) {
+					etals[i].afficherEtal();
+				}else {
+					nbEtalVide++;
+				}
+			}
+			System.out.println("Il reste "+ nbEtalVide +" étals non utilisés dans le marché.\n");
 		}
 		
 		
